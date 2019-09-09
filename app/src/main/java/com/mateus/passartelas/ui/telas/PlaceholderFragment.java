@@ -23,6 +23,7 @@ import com.mateus.passartelas.Classes.Collect;
 import com.mateus.passartelas.Control;
 import com.mateus.passartelas.MainActivity;
 import com.mateus.passartelas.R;
+import com.mateus.passartelas.bluetooth.MainActivityBluetooth;
 
 import java.util.Objects;
 import java.util.zip.Inflater;
@@ -79,7 +80,8 @@ public class PlaceholderFragment extends Fragment {
             root.findViewById(R.id.takePicture).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivityForResult(new Intent(getActivity(), CameraActivity.class), CAMERA_TAKE_PIC);
+                    //startActivityForResult(new Intent(getActivity(), CameraActivity.class), CAMERA_TAKE_PIC);
+                    startActivity(new Intent(getActivity(), MainActivityBluetooth.class));
                 }
             });
 

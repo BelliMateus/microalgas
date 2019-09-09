@@ -142,13 +142,14 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            //TODO Open Settings
+            return true;
+        }else if(id == R.id.action_about){
+            //TODO Open About
             return true;
         }
 
@@ -160,7 +161,8 @@ public class MainActivity extends AppCompatActivity {
         if (requestCode == REQUEST_CODE_CAMERA) {
             if (grantResults.length > 0 && (
                     grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED)) {
-                Toast.makeText(this, "Vai funcionar!!!", Toast.LENGTH_LONG).show();
+                Log.d("Permission", "Camera Granted");
+                Log.d("Permission", "External Storage (Write and Read)");
                 Control.permission_camera = true;
             }
         }
