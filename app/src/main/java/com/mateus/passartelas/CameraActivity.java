@@ -1,6 +1,7 @@
 package com.mateus.passartelas;
 
 
+import android.annotation.SuppressLint;
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +18,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.mateus.passartelas.Classes.Collect;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -30,12 +33,14 @@ public class CameraActivity extends AppCompatActivity {
     private static final int REQUEST_TAKE_PHOTO = 2;
     Button bt;
     Bitmap bm1;
+    ImageView ivPhotoTaken;
     private String pathToFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+        ivPhotoTaken = findViewById(R.id.ivPhotoTaken);
         bt = findViewById(R.id.bt_takePicture);
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +75,7 @@ public class CameraActivity extends AppCompatActivity {
     private File createPhotoFile() {
         File image = null;
         try{
-            String name = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
+            @SuppressLint("SimpleDateFormat") String name = new SimpleDateFormat(getString(R.string.date_format_pattern)).format(new Date());
             File storageDir = getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
             image = File.createTempFile(name, ".jpg", storageDir);
         }catch (IOException e){
@@ -86,20 +91,10 @@ public class CameraActivity extends AppCompatActivity {
 
                 Control.camera_taken = true;
                 Control.camera_result = true;
-                bm1 = BitmapFactory.decodeFile(pathToFile);
-
-                Intent intent = new Intent();
-                intent.putExtra("PhotoTaken", bm1);
+                Collect.bitmapFile = BitmapFactory.decodeFile(pathToFile);
             }
             finish();
 
-            /*try {
-                //ImageView imagem = (ImageView)findViewById(R.id.imagem);
-                //bm1 = BitmapFactory.decodeStream(getContentResolver().openInputStream(Uri.parse(mCurrentPhotoPath)));
-                //imagem.setImageBitmap(bm1);
-            }catch(FileNotFoundException fnex){
-                Toast.makeText(getApplicationContext(), "Foto não encontrada!", Toast.LENGTH_LONG).show();
-            }*/
         }
     }
 

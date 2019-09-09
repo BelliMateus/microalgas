@@ -14,9 +14,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mateus.passartelas.CameraActivity;
+import com.mateus.passartelas.Classes.Collect;
 import com.mateus.passartelas.Control;
 import com.mateus.passartelas.MainActivity;
 import com.mateus.passartelas.R;
@@ -29,6 +31,7 @@ public class PlaceholderFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
     private static final int CAMERA_TAKE_PIC = 100;
     private PageViewModel pageViewModel;
+    ImageView ivTakePhoto;
 
     public static PlaceholderFragment newInstance(int index) {
         PlaceholderFragment fragment = new PlaceholderFragment();
@@ -42,6 +45,7 @@ public class PlaceholderFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         pageViewModel = ViewModelProviders.of(this).get(PageViewModel.class);
+
         int index = 1;
         if (getArguments() != null) {
             index = getArguments().getInt(ARG_SECTION_NUMBER);
@@ -84,5 +88,12 @@ public class PlaceholderFragment extends Fragment {
         return root;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == CAMERA_TAKE_PIC){
+            Log.d("PhotoBitmap", Collect.bitmapFile+"");
+            //ivTakePhoto.setImageBitmap(Collect.bitmapFile);
+        }
+    }
 }
 

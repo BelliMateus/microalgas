@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mateus.passartelas.ui.telas.SectionsPagerAdapter;
@@ -27,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     FloatingActionButton fb_next;
     FloatingActionButton fb_after;
     ViewPager viewPager;
+    ImageView ivTakePhoto;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
 
         viewPager = findViewById(R.id.view_pager);
-
+        ivTakePhoto = findViewById(R.id.ivPhotoTaken);
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -106,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void getPermissions(){
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
@@ -146,17 +149,6 @@ public class MainActivity extends AppCompatActivity {
                     grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED)) {
                 Toast.makeText(this, "Vai funcionar!!!", Toast.LENGTH_LONG).show();
                 Control.permission_camera = true;
-            }
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == 100){
-            if(Control.camera_result){
-                Log.d("Intent", "Camera Result: True");
-                Control.camera_result = false;
-                viewPager.setCurrentItem(2);
             }
         }
     }

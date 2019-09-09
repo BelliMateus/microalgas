@@ -4,4 +4,5 @@
     <string name="tab_text_1">a</string>
     <string name="tab_text_2">b</string>
     <string name="tutorial_1">RETIRE UMA AMOSTRA DO FRASCO DE AMOTRA E COLOQUE NO PRATO</string>
+    <string name="date_format_pattern">ddMMyyyy_HHmmss</string>
 </resources>

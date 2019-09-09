@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/camera_image"
+        android:id="@+id/ivPhotoTaken"
         android:layout_width="350dp"
         android:layout_height="350dp"
         android:layout_marginStart="8dp"
