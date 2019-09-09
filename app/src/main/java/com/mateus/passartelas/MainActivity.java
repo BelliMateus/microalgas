@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,14 +13,21 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.mateus.passartelas.Classes.Collect;
 import com.mateus.passartelas.ui.telas.SectionsPagerAdapter;
+
+import java.util.zip.Inflater;
+
+import static com.mateus.passartelas.R.layout.frag_cam;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.view_pager);
         ivTakePhoto = findViewById(R.id.ivPhotoTaken);
+
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -74,9 +83,11 @@ public class MainActivity extends AppCompatActivity {
             }
 
 
+
         });
 
         viewPager.setAdapter(sectionsPagerAdapter);
+
         fb_next = findViewById(R.id.fab_next);
         fb_after = findViewById(R.id.fab_last);
 
@@ -101,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
                     getPermissions();
             }
         });
+
+        if(Control.camera_taken) viewPager.setCurrentItem(1);
 
         getPermissions();
 
@@ -157,14 +170,17 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
 
-        if(hasFocus && Control.camera_result){
-            if(viewPager.getCurrentItem() == 1){
-                if(Control.camera_taken) {
-                    fb_after.setVisibility(View.VISIBLE);
-                    fb_next.setVisibility(View.VISIBLE);
-                }else{
-                    fb_after.setVisibility(View.VISIBLE);
-                    fb_next.setVisibility(View.GONE);
+        if(hasFocus){
+            if(Control.camera_result) {
+                if (viewPager.getCurrentItem() == 1) {
+                    if (Control.camera_taken) {
+                        fb_after.setVisibility(View.VISIBLE);
+                        fb_next.setVisibility(View.VISIBLE);
+
+                    } else {
+                        fb_after.setVisibility(View.VISIBLE);
+                        fb_next.setVisibility(View.GONE);
+                    }
                 }
             }
         }

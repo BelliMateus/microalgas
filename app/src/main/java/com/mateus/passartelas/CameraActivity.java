@@ -88,12 +88,14 @@ public class CameraActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO){
             if(resultCode == RESULT_OK) {
-
                 Control.camera_taken = true;
                 Control.camera_result = true;
                 Collect.bitmapFile = BitmapFactory.decodeFile(pathToFile);
             }
             finish();
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+
 
         }
     }

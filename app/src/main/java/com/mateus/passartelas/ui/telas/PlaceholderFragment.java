@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -24,6 +25,7 @@ import com.mateus.passartelas.MainActivity;
 import com.mateus.passartelas.R;
 
 import java.util.Objects;
+import java.util.zip.Inflater;
 
 
 public class PlaceholderFragment extends Fragment {
@@ -72,6 +74,8 @@ public class PlaceholderFragment extends Fragment {
         }else if(index == 2) {
 
             root = inflater.inflate(R.layout.frag_cam, container, false);
+            ImageView iv = root.findViewById(R.id.ivPhotoTaken);
+            iv.setImageBitmap(Collect.bitmapFile);
             root.findViewById(R.id.takePicture).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -90,10 +94,7 @@ public class PlaceholderFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == CAMERA_TAKE_PIC){
-            Log.d("PhotoBitmap", Collect.bitmapFile+"");
-            //ivTakePhoto.setImageBitmap(Collect.bitmapFile);
-        }
+
     }
 }
 
