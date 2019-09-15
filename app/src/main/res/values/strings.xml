@@ -8,4 +8,8 @@
     <string name="title_activity_paired_devices">paired_devices</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="any_connected_devices">Any connected devices</string>
+    <string name="title_activity_startup">StartupActivity</string>
+    <string name="bluetooth_connection_error">Ocorreu um erro de conexão</string>
+    <string name="bluetooth_connection_successful">Conectado</string>
+    <string name="bluetooth_connection_timeout">Connection Timeout</string>
 </resources>

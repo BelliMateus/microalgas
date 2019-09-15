@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mateus.passartelas.Classes.Collect;
+import com.mateus.passartelas.bluetooth.MainActivityBluetooth;
 import com.mateus.passartelas.ui.telas.SectionsPagerAdapter;
 
 import java.util.zip.Inflater;
@@ -50,8 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.view_pager);
         ivTakePhoto = findViewById(R.id.ivPhotoTaken);
-
-
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
@@ -69,21 +68,13 @@ public class MainActivity extends AppCompatActivity {
                         fb_next.setVisibility(View.GONE);
                     }
                 }
-
             }
 
             @Override
-            public void onPageSelected(int i) {
-
-            }
+            public void onPageSelected(int i) {}
 
             @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-
-
-
+            public void onPageScrollStateChanged(int i) {}
         });
 
         viewPager.setAdapter(sectionsPagerAdapter);
@@ -107,7 +98,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d("Camera", Control.permission_camera + "");
                 if(Control.permission_camera) {
-                    viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                    if(viewPager.getCurrentItem() != 1)
+                        viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+                    else
+                        startActivity(new Intent(getApplication(), MainActivityBluetooth.class));
                 } else
                     getPermissions();
             }
@@ -160,10 +154,14 @@ public class MainActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == REQUEST_CODE_CAMERA) {
             if (grantResults.length > 0 && (
-                    grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED && grantResults[2] == PackageManager.PERMISSION_GRANTED)) {
+                grantResults[0] == PackageManager.PERMISSION_GRANTED &&
+                grantResults[1] == PackageManager.PERMISSION_GRANTED &&
+                grantResults[2] == PackageManager.PERMISSION_GRANTED)) {
+
                 Log.d("Permission", "Camera Granted");
                 Log.d("Permission", "External Storage (Write and Read)");
                 Control.permission_camera = true;
+
             }
         }
     }
@@ -174,6 +172,9 @@ public class MainActivity extends AppCompatActivity {
 
         if(hasFocus){
             if(Control.camera_result) {
+
+                Control.camera_result = false;
+
                 if (viewPager.getCurrentItem() == 1) {
                     if (Control.camera_taken) {
                         fb_after.setVisibility(View.VISIBLE);
@@ -184,6 +185,11 @@ public class MainActivity extends AppCompatActivity {
                         fb_next.setVisibility(View.GONE);
                     }
                 }
+
+                finish();
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+
             }
         }
 

@@ -92,10 +92,8 @@ public class CameraActivity extends AppCompatActivity {
                 Control.camera_result = true;
                 Collect.bitmapFile = BitmapFactory.decodeFile(pathToFile);
             }
-            finish();
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
 
+            finish();
 
         }
     }

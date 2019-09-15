@@ -80,14 +80,16 @@ public class PlaceholderFragment extends Fragment {
             root.findViewById(R.id.takePicture).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //startActivityForResult(new Intent(getActivity(), CameraActivity.class), CAMERA_TAKE_PIC);
-                    startActivity(new Intent(getActivity(), MainActivityBluetooth.class));
+                    startActivityForResult(new Intent(getActivity(), CameraActivity.class), CAMERA_TAKE_PIC);
                 }
             });
 
         }else{
 
-            root = inflater.inflate(R.layout.frag_add_info, container, false);
+            root = inflater.inflate(R.layout.bluetooth_activity_main, container, false);
+
+
+            //root = inflater.inflate(R.layout.frag_add_info, container, false);
 
         }
 

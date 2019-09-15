@@ -1,5 +1,6 @@
 package com.mateus.passartelas.bluetooth;
 
+import android.annotation.SuppressLint;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mateus.passartelas.Control;
 import com.mateus.passartelas.R;
 
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class MainActivityBluetooth extends AppCompatActivity {
     // Threads
     ConnectionThread connect;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +47,7 @@ public class MainActivityBluetooth extends AppCompatActivity {
         // UI
         tvStatusMessage = findViewById(R.id.statusMessage);
 
+        // Adapter
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
         // Verifica a existência do Bluetooth
@@ -59,6 +63,8 @@ public class MainActivityBluetooth extends AppCompatActivity {
             startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
 
+        if(Control.permission_bluetooth) searchPairedDevices();
+
     }
 
     @Override
@@ -68,6 +74,7 @@ public class MainActivityBluetooth extends AppCompatActivity {
         if(requestCode == REQUEST_ENABLE_BT){
             if(resultCode == RESULT_OK){
                 Toast.makeText(this, "Bluetooth ativado", Toast.LENGTH_SHORT).show();
+                Control.permission_bluetooth = true;
             }
             else {
                 Toast.makeText(this, "Bluetooth não ativado", Toast.LENGTH_SHORT).show();
@@ -86,9 +93,13 @@ public class MainActivityBluetooth extends AppCompatActivity {
                 tvStatusMessage.setText(R.string.any_connected_devices);
             }
         }
-
-        // FALTA CONFIGURAR O QUE ACONTECE CASO O USUÁRIO DESATIVE O BLUETOOTH
     }
+
+    public void searchPairedDevices(){
+        Intent searchPairedDevicesIntent = new Intent(this, PairedDevices.class);
+        startActivityForResult(searchPairedDevicesIntent, SELECT_PAIRED_DEVICE);
+    }
+
 
     public void searchPairedDevices(View view){
         Intent searchPairedDevicesIntent = new Intent(this, PairedDevices.class);
@@ -118,7 +129,8 @@ public class MainActivityBluetooth extends AppCompatActivity {
         connect.start();
     }
 
-    static public Handler handler = new Handler(){
+    @SuppressLint("HandlerLeak")
+    public static Handler handler = new Handler(){
 
         @Override
         public void handleMessage(Message msg) {
@@ -127,20 +139,38 @@ public class MainActivityBluetooth extends AppCompatActivity {
             byte[] data = bundle.getByteArray("data");
             String dataString = new String(data);
 
-            if(dataString.equals("---N")) tvStatusMessage.setText("Ocorreu um erro de conexão");
-            else if(dataString.equals("---S")) tvStatusMessage.setText("Conectado");
-            else if(dataString.equals("---TO")) tvStatusMessage.setText("Connection Timeout");
-            else tvStatusMessage.setText(new String(data)); // RECEBIMENTO DE MENGAGENS DO BLUETOOTH
+            switch (dataString) {
+                case "---N":
+                    tvStatusMessage.setText(R.string.bluetooth_connection_error);
+                    Control.bluetooth_paired = false;
+                    break;
+                case "---S":
+                    tvStatusMessage.setText(R.string.bluetooth_connection_successful);
+                    Control.bluetooth_paired = true;
+                    break;
+                case "---TO":
+                    tvStatusMessage.setText(R.string.bluetooth_connection_timeout);
+                    break;
+                default:
+                    tvStatusMessage.setText(new String(data));
+                    break;
+            }
 
         }
 
     };
 
     public void sendMessage(View view){
-        EditText messageBox = (EditText) findViewById(R.id.editText_MessageBox);
+        EditText messageBox = findViewById(R.id.editText_MessageBox);
         String messageString = messageBox.getText().toString();
         byte[] data = messageString.getBytes();
         connect.write(data);
     }
 
+//    @Override
+//    public void onWindowFocusChanged(boolean hasFocus) {
+//        if(hasFocus && !Control.bluetooth_paired){
+//            searchPairedDevices();
+//        }
+//    }
 }

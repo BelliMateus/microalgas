@@ -2,15 +2,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mateus.passartelas">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-    <uses-feature android:name="android.hardware.camera" android:required="true" />
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
     <application
         android:allowBackup="true"
@@ -19,20 +21,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.mateus.passartelas.fileprovider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
-        </provider>
-
         <activity
-            android:name=".MainActivity"
-            android:label="@string/app_name"
+            android:name=".StartupActivity"
+            android:label="@string/title_activity_startup"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,22 +32,34 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CameraActivity" />
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="com.mateus.passartelas.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
+        <activity android:name=".CameraActivity" />
+        <activity
             android:name=".bluetooth.MainActivityBluetooth"
-            android:label="Main Activity Bluetooth"></activity>
+            android:label="Main Activity Bluetooth" />
         <activity
             android:name=".bluetooth.PairedDevices"
             android:label="Paired Devices"
-            android:parentActivityName=".bluetooth.MainActivityBluetooth"></activity>
+            android:parentActivityName=".bluetooth.MainActivityBluetooth" />
         <activity
             android:name=".bluetooth.DiscoveredDevices"
             android:label="Discovered Devices"
-            android:parentActivityName=".bluetooth.MainActivityBluetooth"></activity>
-
-
-
+            android:parentActivityName=".bluetooth.MainActivityBluetooth" />
     </application>
 
 </manifest>
