@@ -4,8 +4,6 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.media.Image;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -13,22 +11,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.mateus.passartelas.Classes.Collect;
 import com.mateus.passartelas.bluetooth.MainActivityBluetooth;
 import com.mateus.passartelas.ui.telas.SectionsPagerAdapter;
-
-import java.util.zip.Inflater;
-
-import static com.mateus.passartelas.R.layout.frag_cam;
 
 public class MainActivity extends AppCompatActivity {
 

@@ -1,8 +1,6 @@
 package com.mateus.passartelas;
 
-import com.mateus.passartelas.Classes.Collect;
-
-import java.util.ArrayList;
+import android.graphics.Bitmap;
 
 public class Control {
 
@@ -12,6 +10,6 @@ public class Control {
     public static boolean permission_bluetooth = false;
     public static boolean bluetooth_paired = false;
 
-    public static ArrayList<Collect> collect_list;
 
+    public static Bitmap lastPhoto;
 }

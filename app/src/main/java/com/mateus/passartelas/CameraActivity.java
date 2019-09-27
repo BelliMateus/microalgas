@@ -2,8 +2,6 @@ package com.mateus.passartelas;
 
 
 import android.annotation.SuppressLint;
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,12 +14,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.mateus.passartelas.Classes.Collect;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -90,7 +84,7 @@ public class CameraActivity extends AppCompatActivity {
             if(resultCode == RESULT_OK) {
                 Control.camera_taken = true;
                 Control.camera_result = true;
-                Collect.bitmapFile = BitmapFactory.decodeFile(pathToFile);
+                Control.lastPhoto = BitmapFactory.decodeFile(pathToFile);
             }
 
             finish();

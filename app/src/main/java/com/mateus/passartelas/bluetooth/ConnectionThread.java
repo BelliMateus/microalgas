@@ -2,6 +2,7 @@ package com.mateus.passartelas.bluetooth;
 
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
+import android.bluetooth.BluetoothManager;
 import android.bluetooth.BluetoothServerSocket;
 import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
@@ -24,11 +25,12 @@ public class ConnectionThread extends Thread {
     private static String myUUID = "00001101-0000-1000-8000-00805F9B34FB";
     private boolean server;
     private boolean running = false;
+    public boolean communicationRequested = false;
 
     // Prepara o dispositivo para trabalhar como um servidor
-    ConnectionThread(){
+    /*ConnectionThread(){
         this.server = true;
-    }
+    }*/
 
     // Prepara o dispositivo para trabalhar como um cliente
     ConnectionThread(String bluetoothDevAddress){ // → Endereço MAC do dispositivo que a conexão é solicitada
@@ -44,7 +46,7 @@ public class ConnectionThread extends Thread {
         // Dependendo se a thread esta trabalhando como cliente ou servidor, sua atuação será diferente
         if(this.server){
             // Servidor
-            try{
+            /*try{
                 bluetoothServerSocket = bluetoothAdapter.listenUsingRfcommWithServiceRecord("Bluetooth", UUID.fromString(myUUID));
                 bluetoothSocket = bluetoothServerSocket.accept();
 
@@ -53,7 +55,7 @@ public class ConnectionThread extends Thread {
             }catch (IOException e){
                 e.printStackTrace();
                 toMainActivity("---N".getBytes());
-            }
+            }*/
         }else{
             // Cliente
             Log.d("BluetoothMode", "Client");
@@ -76,6 +78,12 @@ public class ConnectionThread extends Thread {
         if(bluetoothSocket != null){
 
             toMainActivity("---S".getBytes());
+
+//            if(!communicationRequested){
+//                communicationRequested = true;
+//                write("#init!request..end!".getBytes());
+//            }
+
             try{
                 input = bluetoothSocket.getInputStream();
                 output = bluetoothSocket.getOutputStream();
@@ -83,11 +91,22 @@ public class ConnectionThread extends Thread {
                 byte[] buffer = new byte[1024];
                 int bytes;
 
+                new Thread(new Runnable() {
+                    public void run() {
+                        // a potentially time consuming task
+
+                    }
+                }).start();
+
+
                 while (running){
                     // Enquanto o bluetooth estiver conectado, ler mensagens vindas do bluetooth
                     // e as enviar para o Main onde essas mensagens serão tratadas.
                     bytes = input.read(buffer);
                     toMainActivity(Arrays.copyOfRange(buffer, 0, bytes));
+
+                    write("#init!request.end~".getBytes());
+
                 }
 
             }catch (IOException e){

@@ -1,32 +1,21 @@
 package com.mateus.passartelas.ui.telas;
 
-import android.Manifest;
-import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.mateus.passartelas.CameraActivity;
-import com.mateus.passartelas.Classes.Collect;
 import com.mateus.passartelas.Control;
-import com.mateus.passartelas.MainActivity;
+import com.mateus.passartelas.collect.CollectData;
 import com.mateus.passartelas.R;
-import com.mateus.passartelas.bluetooth.MainActivityBluetooth;
 
 import java.util.Objects;
-import java.util.zip.Inflater;
 
 
 public class PlaceholderFragment extends Fragment {
@@ -75,8 +64,14 @@ public class PlaceholderFragment extends Fragment {
         }else if(index == 2) {
 
             root = inflater.inflate(R.layout.frag_cam, container, false);
+
             ImageView iv = root.findViewById(R.id.ivPhotoTaken);
-            iv.setImageBitmap(Collect.bitmapFile);
+
+            try {
+                iv.setImageBitmap(Control.lastPhoto);
+            }catch (NullPointerException e){
+                e.printStackTrace();
+            }
             root.findViewById(R.id.takePicture).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -86,10 +81,7 @@ public class PlaceholderFragment extends Fragment {
 
         }else{
 
-            root = inflater.inflate(R.layout.bluetooth_activity_main, container, false);
-
-
-            //root = inflater.inflate(R.layout.frag_add_info, container, false);
+            root = inflater.inflate(R.layout.frag_add_info, container, false);
 
         }
 

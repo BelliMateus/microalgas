@@ -26,13 +26,13 @@
         android:id="@+id/lvBluetooth"
         android:layout_weight="1"/>
 
-    <Button
+    <!--<Button
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:id="@+id/button_PairedDevices"
         android:layout_gravity="center"
         android:onClick="searchPairedDevices"
-        android:text="Dispositivos pareados" />
+        android:text="Dispositivos pareados" /> -->
 
     <EditText
         android:layout_width="match_parent"
