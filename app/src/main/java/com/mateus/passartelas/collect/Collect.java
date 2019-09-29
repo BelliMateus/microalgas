@@ -42,9 +42,6 @@ public class Collect {
         collect.height = height;
         collect.bitmapFile = Control.lastPhoto;
 
-        Log.d("Collect", collect.temperature + "");
-        Log.d("Collect", collect.salinity + "");
-
         CollectData.collect_list.add(collect);
     }
 

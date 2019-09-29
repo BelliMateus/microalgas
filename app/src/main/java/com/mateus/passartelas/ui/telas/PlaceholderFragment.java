@@ -61,7 +61,7 @@ public class PlaceholderFragment extends Fragment {
 
             root = inflater.inflate(R.layout.tutorial_1, container, false);
 
-        }else if(index == 2) {
+        }else{
 
             root = inflater.inflate(R.layout.frag_cam, container, false);
 
@@ -78,10 +78,6 @@ public class PlaceholderFragment extends Fragment {
                     startActivityForResult(new Intent(getActivity(), CameraActivity.class), CAMERA_TAKE_PIC);
                 }
             });
-
-        }else{
-
-            root = inflater.inflate(R.layout.frag_add_info, container, false);
 
         }
 

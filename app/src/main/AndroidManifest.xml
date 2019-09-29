@@ -23,6 +23,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".CollectList"></activity>
+        <activity android:name=".AdditionalInfo" />
         <activity
             android:name=".StartupActivity"
             android:label="@string/title_activity_startup"
@@ -47,22 +49,11 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".CameraActivity" />
         <activity
             android:name=".bluetooth.MainActivityBluetooth"
             android:label="Main Activity Bluetooth" />
-        <activity
-            android:name=".bluetooth.PairedDevices"
-            android:label="Paired Devices"
-            android:parentActivityName=".bluetooth.MainActivityBluetooth" />
-        <activity
-            android:name=".bluetooth.DiscoveredDevices"
-            android:label="Discovered Devices"
-            android:parentActivityName=".bluetooth.MainActivityBluetooth" />
-
     </application>
 
 </manifest>

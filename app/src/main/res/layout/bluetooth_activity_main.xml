@@ -26,28 +26,5 @@
         android:id="@+id/lvBluetooth"
         android:layout_weight="1"/>
 
-    <!--<Button
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:id="@+id/button_PairedDevices"
-        android:layout_gravity="center"
-        android:onClick="searchPairedDevices"
-        android:text="Dispositivos pareados" /> -->
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText_MessageBox"
-        />
-
-    <Button
-        android:id="@+id/button_Send"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="108dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:onClick="sendMessage"
-        android:text="Send" />
-
 
 </LinearLayout>

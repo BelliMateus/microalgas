@@ -12,4 +12,5 @@
     <string name="bluetooth_connection_error">Ocorreu um erro de conexão</string>
     <string name="bluetooth_connection_successful">Conectado</string>
     <string name="bluetooth_connection_timeout">Connection Timeout</string>
+    <string name="depth">Profundidade:</string>
 </resources>

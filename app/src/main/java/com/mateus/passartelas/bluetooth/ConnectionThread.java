@@ -23,66 +23,40 @@ public class ConnectionThread extends Thread {
     private OutputStream output;
     private String bluetoothDevAddress = null;
     private static String myUUID = "00001101-0000-1000-8000-00805F9B34FB";
-    private boolean server;
     private boolean running = false;
-    public boolean communicationRequested = false;
-
-    // Prepara o dispositivo para trabalhar como um servidor
-    /*ConnectionThread(){
-        this.server = true;
-    }*/
+    private boolean communicationRequested = false;
 
     // Prepara o dispositivo para trabalhar como um cliente
     ConnectionThread(String bluetoothDevAddress){ // → Endereço MAC do dispositivo que a conexão é solicitada
-        this.server = false;
         this.bluetoothDevAddress = bluetoothDevAddress;
     }
 
     // Nova Thread
     public void run(){
+
         this.running = true; // Thread sendo executada
         BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
-        // Dependendo se a thread esta trabalhando como cliente ou servidor, sua atuação será diferente
-        if(this.server){
-            // Servidor
-            /*try{
-                bluetoothServerSocket = bluetoothAdapter.listenUsingRfcommWithServiceRecord("Bluetooth", UUID.fromString(myUUID));
-                bluetoothSocket = bluetoothServerSocket.accept();
+        Log.d("BluetoothMode", "Client");
+        try{
+            Log.d("BluetoothAddress", this.bluetoothDevAddress);
+            bluetoothAdapter.cancelDiscovery();
+            BluetoothDevice bluetoothDevice = bluetoothAdapter.getRemoteDevice(this.bluetoothDevAddress);
+            bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(UUID.fromString(myUUID));
 
-                if(bluetoothSocket != null) bluetoothServerSocket.close();
+            if(bluetoothSocket != null) {
+                bluetoothSocket.connect();
 
-            }catch (IOException e){
-                e.printStackTrace();
-                toMainActivity("---N".getBytes());
-            }*/
-        }else{
-            // Cliente
-            Log.d("BluetoothMode", "Client");
-            try{
-                Log.d("BluetoothAddress", this.bluetoothDevAddress);
-                bluetoothAdapter.cancelDiscovery();
-                BluetoothDevice bluetoothDevice = bluetoothAdapter.getRemoteDevice(this.bluetoothDevAddress);
-                bluetoothSocket = bluetoothDevice.createRfcommSocketToServiceRecord(UUID.fromString(myUUID));
-
-                if(bluetoothSocket != null) {
-                    bluetoothSocket.connect();
-                    Log.d("BluetoothConnected?", bluetoothSocket.isConnected()+"");
-                }
-            }catch (IOException e){
-                e.printStackTrace();
-                toMainActivity("---TO".getBytes());
+                Log.d("BluetoothConnected?", bluetoothSocket.isConnected()+"");
             }
+        }catch (IOException e){
+            e.printStackTrace();
+            toMainActivity("---TO".getBytes());
         }
 
         if(bluetoothSocket != null){
 
             toMainActivity("---S".getBytes());
-
-//            if(!communicationRequested){
-//                communicationRequested = true;
-//                write("#init!request..end!".getBytes());
-//            }
 
             try{
                 input = bluetoothSocket.getInputStream();
@@ -91,21 +65,23 @@ public class ConnectionThread extends Thread {
                 byte[] buffer = new byte[1024];
                 int bytes;
 
-                new Thread(new Runnable() {
-                    public void run() {
-                        // a potentially time consuming task
-
-                    }
-                }).start();
-
-
                 while (running){
+
                     // Enquanto o bluetooth estiver conectado, ler mensagens vindas do bluetooth
                     // e as enviar para o Main onde essas mensagens serão tratadas.
+                    //write("#init!request.end~".getBytes());
+                    if(bluetoothSocket.isConnected() && !communicationRequested){
+                        try {
+                            write("#init!request.end~".getBytes());
+                            communicationRequested = true;
+                        }catch (Exception e){
+                            e.printStackTrace();
+                            communicationRequested = false;
+                        }
+                    }
+
                     bytes = input.read(buffer);
                     toMainActivity(Arrays.copyOfRange(buffer, 0, bytes));
-
-                    write("#init!request.end~".getBytes());
 
                 }
 
@@ -124,7 +100,7 @@ public class ConnectionThread extends Thread {
         MainActivityBluetooth.handler.sendMessage(message);
     }
 
-    public void write(byte[] data){
+    private void write(byte[] data){
 
         if(output != null){
             try{
@@ -135,7 +111,6 @@ public class ConnectionThread extends Thread {
         }else{
             toMainActivity("---N".getBytes());
         }
-
     }
 
 
