@@ -39,24 +39,26 @@ public class MainActivity extends AppCompatActivity {
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
 
         viewPager = findViewById(R.id.view_pager);
+
+
         ivTakePhoto = findViewById(R.id.ivPhotoTaken);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageScrolled(int i, float v, int i1) {
 
-                if(i == 0){
-                    fb_after.setVisibility(View.GONE);
+                if(i < 3) {
+                    fb_after.setVisibility(View.VISIBLE);
                     fb_next.setVisibility(View.VISIBLE);
-                }else if(i == 1){
+                }else{
+                    fb_after.setVisibility(View.VISIBLE);
+                    fb_next.setVisibility(View.GONE);
                     if(Control.camera_taken) {
                         fb_after.setVisibility(View.VISIBLE);
                         fb_next.setVisibility(View.VISIBLE);
-                    }else{
-                        fb_after.setVisibility(View.VISIBLE);
-                        fb_next.setVisibility(View.GONE);
                     }
                 }
+
             }
 
             @Override
@@ -71,13 +73,15 @@ public class MainActivity extends AppCompatActivity {
         fb_next = findViewById(R.id.fab_next);
         fb_after = findViewById(R.id.fab_last);
 
-        fb_after.setVisibility(View.GONE);
-
         fb_after.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View view) {
-                viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+                if(viewPager.getCurrentItem() > 0) {
+                    viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+                }else{
+                    finish();
+                }
             }
         });
 
@@ -87,16 +91,17 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Log.d("Camera", Control.permission_camera + "");
                 if(Control.permission_camera) {
-                    if(viewPager.getCurrentItem() != 1)
+                    if(viewPager.getCurrentItem() != 2)
                         viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
                     else
-                        startActivity(new Intent(getApplication(), MainActivityBluetooth.class));
-                } else
+                        startActivity(new Intent(getApplication(), CameraActivity.class));
+
+                }else
                     getPermissions();
             }
         });
 
-        if(Control.camera_taken) viewPager.setCurrentItem(1);
+        if(Control.camera_taken) viewPager.setCurrentItem(3);
 
         getPermissions();
 
@@ -160,11 +165,15 @@ public class MainActivity extends AppCompatActivity {
     public void onWindowFocusChanged(boolean hasFocus) {
 
         if(hasFocus){
+
+
+            viewPager.setCurrentItem(0);
+
             if(Control.camera_result) {
 
                 Control.camera_result = false;
 
-                if (viewPager.getCurrentItem() == 1) {
+                if (viewPager.getCurrentItem() == 4) {
                     if (Control.camera_taken) {
                         fb_after.setVisibility(View.VISIBLE);
                         fb_next.setVisibility(View.VISIBLE);

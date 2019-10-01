@@ -17,24 +17,25 @@ public class Collect {
     public Bitmap bitmapFile;
 
     // Cellphone
-    private String date;
+    public String date;
     public String GPS;
+    public String depth;
 
     // Environment
-    private int salinity;
-    private int temperature;
+    public int salinity;
+    public int temperature;
 
     //TODO Get cup size
 
     // Cup
-    private int diameter;
-    private int height;
+    public int diameter;
+    public int height;
 
 
     public static void AddCollectToList(int salinity, int temperature, int diameter, int height){
         Collect collect = new Collect();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss", Locale.UK);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy-HH:mm:ss", Locale.UK);
         collect.date = sdf.format(new Date());
         collect.salinity = salinity;
         collect.temperature = temperature;
@@ -43,6 +44,7 @@ public class Collect {
         collect.bitmapFile = Control.lastPhoto;
 
         CollectData.collect_list.add(collect);
+        Log.i("CollectList", CollectData.collect_list.size()+"");
     }
 
 }

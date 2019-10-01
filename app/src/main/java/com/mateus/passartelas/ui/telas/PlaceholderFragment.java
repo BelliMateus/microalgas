@@ -61,7 +61,17 @@ public class PlaceholderFragment extends Fragment {
 
             root = inflater.inflate(R.layout.tutorial_1, container, false);
 
-        }else{
+        }else if(index == 2){
+
+            root = inflater.inflate(R.layout.tutorial_2, container, false);
+
+        }else if(index == 3){
+
+            root = inflater.inflate(R.layout.tutorial_3, container, false);
+
+        }
+
+        else{
 
             root = inflater.inflate(R.layout.frag_cam, container, false);
 

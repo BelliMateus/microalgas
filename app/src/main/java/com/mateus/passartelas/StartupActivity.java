@@ -38,12 +38,28 @@ public class StartupActivity extends AppCompatActivity {
                 startGathering(false);
             }
         });
+
+        btGather.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                collectList();
+            }
+        });
     }
 
 
     private void startGathering(boolean guided){
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("guided", guided);
+        if(guided) {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }else{
+            Intent intent = new Intent(this, CameraActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    private void collectList(){
+        Intent intent = new Intent(this, CollectList.class);
         startActivity(intent);
     }
 

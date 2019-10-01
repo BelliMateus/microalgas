@@ -57,6 +57,8 @@ public class MainActivityBluetooth extends AppCompatActivity {
         // Adapter
         bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 
+        context = this;
+
         // Verifica a existência do Bluetooth
         if(bluetoothAdapter == null){
             Toast.makeText(this, "Bluetooth não disponível", Toast.LENGTH_SHORT).show();
@@ -87,21 +89,20 @@ public class MainActivityBluetooth extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                //context.startActivity(new Intent(context, AdditionalInfo.class));
                 // Nota: position-1 é usado por causa que foi adicionado um título e o valor do position é deslocado uma unidade
                 String item = (String) lvPairedDevices.getItemAtPosition(i);
                 String devName = item.substring(0, item.indexOf("\n"));
-                String devAddress = item.substring(item.indexOf("\n")+1, item.length());
+                String devAddress = item.substring(item.indexOf("\n")+1);
 
                 tvStatusMessage.setText(String.format("Selecionado: %s → %s",
                         devName, devAddress));
                 macConnectedDevice = devAddress;
+
                 connect = new ConnectionThread(devAddress);
                 connect.start();
-
             }
         });
-
-        context = this;
 
     }
 
@@ -116,8 +117,9 @@ public class MainActivityBluetooth extends AppCompatActivity {
             }
             else {
                 Toast.makeText(this, "Bluetooth não ativado", Toast.LENGTH_SHORT).show();
+                finish();
             }
-            finish();
+
         }
     }
 
@@ -154,7 +156,6 @@ public class MainActivityBluetooth extends AppCompatActivity {
 
                             Collect.AddCollectToList(Integer.parseInt(splitDataString[2]), Integer.parseInt(splitDataString[3]),
                                     Integer.parseInt(splitDataString[4]), Integer.parseInt(splitDataString[5]));
-
 
                             context.startActivity(new Intent(context, AdditionalInfo.class));
 

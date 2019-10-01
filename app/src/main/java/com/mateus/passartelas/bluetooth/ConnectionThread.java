@@ -118,9 +118,9 @@ public class ConnectionThread extends Thread {
 
         try{
             running = false;
-            bluetoothServerSocket.close();
+            //bluetoothServerSocket.close();
             bluetoothSocket.close();
-        }catch (IOException e){
+        }catch (Exception e){
             e.printStackTrace();
         }
         running = false;

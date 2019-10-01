@@ -9,11 +9,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+
+import com.mateus.passartelas.bluetooth.MainActivityBluetooth;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,29 +28,48 @@ import static android.os.Environment.getExternalStoragePublicDirectory;
 public class CameraActivity extends AppCompatActivity {
 
     private static final int REQUEST_TAKE_PHOTO = 2;
-    Button bt;
+    FloatingActionButton bt_photo, bt_next, bt_after;
     Bitmap bm1;
     ImageView ivPhotoTaken;
     private String pathToFile;
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
-        ivPhotoTaken = findViewById(R.id.ivPhotoTaken);
-        bt = findViewById(R.id.bt_takePicture);
-        bt.setOnClickListener(new View.OnClickListener() {
+        ivPhotoTaken = findViewById(R.id.iv_photo);
+        bt_photo = findViewById(R.id.bt_takePicture);
+        bt_next = findViewById(R.id.fab_next_camera);
+        bt_after = findViewById(R.id.fab_after_camera);
+
+        if(Control.camera_taken) {
+            bt_next.setVisibility(View.VISIBLE);
+            ivPhotoTaken.setImageBitmap(Control.lastPhoto);
+        }else
+            bt_next.setVisibility(View.GONE);
+
+        bt_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Control.camera_taken = true;
-                Control.camera_result = true;
-                Intent intent = new Intent();
-                intent.putExtra("PhotoTaken", bm1);
+                dispatchTakePictureIntent();
+            }
+        });
+
+        bt_after.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 finish();
             }
         });
 
-        dispatchTakePictureIntent();
+        final Intent intent = new Intent(this, MainActivityBluetooth.class);
+        bt_next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(intent);
+            }
+        });
 
     }
 
@@ -78,17 +100,16 @@ public class CameraActivity extends AppCompatActivity {
         return image;
     }
 
+    @SuppressLint("RestrictedApi")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO){
             if(resultCode == RESULT_OK) {
                 Control.camera_taken = true;
-                Control.camera_result = true;
+                bt_next.setVisibility(View.VISIBLE);
                 Control.lastPhoto = BitmapFactory.decodeFile(pathToFile);
+                ivPhotoTaken.setImageBitmap(Control.lastPhoto);
             }
-
-            finish();
-
         }
     }
 
