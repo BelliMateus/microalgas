@@ -74,7 +74,8 @@ class CustomAdapter extends BaseAdapter{
         tvTemp.setText(CollectData.collect_list.get(i).temperature + "");
         tvData.setText(CollectData.collect_list.get(i).date.split("-")[0]);
         tvSal.setText(CollectData.collect_list.get(i).salinity + "");
-        //tvLat.setText(CollectData.collect_list.get(i).);
+        tvLat.setText(CollectData.collect_list.get(i).latitude );
+        tvLong.setText(CollectData.collect_list.get(i).longitude);
 
 
         return view;

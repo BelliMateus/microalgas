@@ -71,6 +71,15 @@ public class CameraActivity extends AppCompatActivity {
             }
         });
 
+        File folder = new File(Environment.getExternalStorageDirectory()+"/Microalgas");
+        if(!folder.exists()){
+            folder.mkdir();
+        }
+
+        // GPS Service
+        Intent intent_service = new Intent(getApplicationContext(), GPS_service.class);
+        startService(intent_service);
+
     }
 
     private void dispatchTakePictureIntent() {

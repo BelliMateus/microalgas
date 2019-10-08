@@ -54,6 +54,9 @@
         <activity
             android:name=".bluetooth.MainActivityBluetooth"
             android:label="Main Activity Bluetooth" />
+
+        <service android:name=".GPS_service"/>
+
     </application>
 
 </manifest>

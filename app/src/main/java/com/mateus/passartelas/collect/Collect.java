@@ -18,7 +18,8 @@ public class Collect {
 
     // Cellphone
     public String date;
-    public String GPS;
+    public String latitude;
+    public String longitude;
     public String depth;
 
     // Environment
