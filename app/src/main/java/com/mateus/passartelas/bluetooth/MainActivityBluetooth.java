@@ -101,6 +101,8 @@ public class MainActivityBluetooth extends AppCompatActivity {
 
                 connect = new ConnectionThread(devAddress);
                 connect.start();
+                //Collect.AddCollectToList(1, 1, 1, 1);
+                //context.startActivity(new Intent(context, AdditionalInfo.class));
             }
         });
 

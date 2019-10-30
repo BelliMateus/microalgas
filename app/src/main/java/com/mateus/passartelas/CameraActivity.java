@@ -2,6 +2,7 @@ package com.mateus.passartelas;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -22,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import static android.os.Environment.getExternalStoragePublicDirectory;
 
@@ -38,6 +40,9 @@ public class CameraActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+
+
+
         ivPhotoTaken = findViewById(R.id.iv_photo);
         bt_photo = findViewById(R.id.bt_takePicture);
         bt_next = findViewById(R.id.fab_next_camera);
@@ -71,10 +76,10 @@ public class CameraActivity extends AppCompatActivity {
             }
         });
 
-        File folder = new File(Environment.getExternalStorageDirectory()+"/Microalgas");
+        /*File folder = new File(Environment.getExternalStorageDirectory()+"/Microalgas");
         if(!folder.exists()){
             folder.mkdir();
-        }
+        }*/
 
         // GPS Service
         Intent intent_service = new Intent(getApplicationContext(), GPS_service.class);
@@ -89,7 +94,7 @@ public class CameraActivity extends AppCompatActivity {
             photoFile = createPhotoFile();
 
             if(photoFile != null){
-                pathToFile = photoFile.getAbsolutePath();
+                //pathToFile = photoFile.getAbsolutePath();
                 Uri photoUri = FileProvider.getUriForFile(getApplicationContext(), "com.mateus.passartelas.fileprovider", photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 startActivityForResult(takePictureIntent, REQUEST_TAKE_PHOTO);
@@ -100,9 +105,12 @@ public class CameraActivity extends AppCompatActivity {
     private File createPhotoFile() {
         File image = null;
         try{
-            @SuppressLint("SimpleDateFormat") String name = new SimpleDateFormat(getString(R.string.date_format_pattern)).format(new Date());
-            File storageDir = getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-            image = File.createTempFile(name, ".jpg", storageDir);
+            Control.photoDate = new SimpleDateFormat("ddMMyyyy_HHmmss", Locale.UK).format(new Date());
+            //File storageDir = getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+            //File storageDir = getExternalStoragePublicDirectory(Environment.getExternalStorageDirectory()+"/Microalgas");
+            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            image = File.createTempFile(Control.photoDate, ".jpg", storageDir);
+            pathToFile = image.getAbsolutePath();
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -112,13 +120,12 @@ public class CameraActivity extends AppCompatActivity {
     @SuppressLint("RestrictedApi")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_TAKE_PHOTO){
-            if(resultCode == RESULT_OK) {
-                Control.camera_taken = true;
-                bt_next.setVisibility(View.VISIBLE);
-                Control.lastPhoto = BitmapFactory.decodeFile(pathToFile);
-                ivPhotoTaken.setImageBitmap(Control.lastPhoto);
-            }
+        if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK){
+            Control.camera_taken = true;
+            bt_next.setVisibility(View.VISIBLE);
+            Control.lastPhoto = BitmapFactory.decodeFile(pathToFile);
+            Control.pathPhoto = pathToFile;
+            ivPhotoTaken.setImageBitmap(Control.lastPhoto);
         }
     }
 

@@ -20,7 +20,7 @@
             android:textSize="30sp"
             android:layout_weight="4"
             android:maxLines="1"
-            android:maxLength="5" />
+            android:maxLength="8" />
 
         <TextView
             android:id="@+id/tvLong"
@@ -31,7 +31,7 @@
             android:textSize="30sp"
             android:layout_weight="4"
             android:maxLines="1"
-            android:maxLength="5" />
+            android:maxLength="8" />
 
         <ImageView
             android:id="@+id/tvSatus"
@@ -80,7 +80,7 @@
                 android:text="Temperatura"
                 android:textSize="30sp"
                 android:maxLines="1"
-                android:maxLength="3" />
+                android:maxLength="5" />
 
             <TextView
                 android:id="@+id/tvSal"
@@ -90,7 +90,7 @@
                 android:layout_weight="1"
                 android:text="Salinidade"
                 android:maxLines="1"
-                android:maxLength="3"
+                android:maxLength="5"
                 android:textSize="30sp" />
 
         </LinearLayout>

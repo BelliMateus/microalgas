@@ -2,12 +2,7 @@
     <string name="app_name">Microalgas</string>
     <string name="action_settings">Configurações</string>
     <string name="tutorial_1">RETIRE UMA AMOSTRA DO COLETOR E COLOQUE NO PRATO DE AMOSTRAS</string>
-    <string name="date_format_pattern">ddMMyyyy_HHmmss</string>
     <string name="action_about">Sobre</string>
-    <string name="ble_not_supported">Bluetooth Low Energy not Available</string>
-    <string name="title_activity_paired_devices">paired_devices</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="any_connected_devices">Any connected devices</string>
     <string name="title_activity_startup">StartupActivity</string>
     <string name="bluetooth_connection_error">Ocorreu um erro de conexão</string>
     <string name="bluetooth_connection_successful">Conectado</string>

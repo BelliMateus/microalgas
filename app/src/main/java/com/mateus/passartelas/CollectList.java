@@ -1,12 +1,16 @@
 package com.mateus.passartelas;
 
-import android.app.Activity;
+
 import android.content.Context;
+
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -14,34 +18,36 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+
 import com.mateus.passartelas.collect.Collect;
 import com.mateus.passartelas.collect.CollectData;
 
-import org.w3c.dom.Text;
+import java.io.File;
 
-import java.util.zip.Inflater;
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class CollectList extends AppCompatActivity {
 
     ListView rvCollectList;
-    public Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collect_list);
 
-        rvCollectList = findViewById(R.id.lvCollect);
 
+        rvCollectList = findViewById(R.id.lvCollect);
         CustomAdapter customAdapter = new CustomAdapter();
         rvCollectList.setAdapter(customAdapter);
-        context = getApplicationContext();
     }
 
 
 }
 
-class CustomAdapter extends BaseAdapter{
+class CustomAdapter extends  BaseAdapter {
+
 
     @Override
     public int getCount() {
@@ -70,11 +76,21 @@ class CustomAdapter extends BaseAdapter{
         TextView tvTemp = view.findViewById(R.id.tvTemp);
         TextView tvSal = view.findViewById(R.id.tvSal);
 
-        ivPhoto.setImageBitmap(CollectData.collect_list.get(i).bitmapFile);
+
+        File image = new File(CollectData.collect_list.get(i).imagePath);
+        if (image.exists()) {
+            Bitmap bitmap = BitmapFactory.decodeFile(CollectData.collect_list.get(i).imagePath);
+            ivPhoto.setImageBitmap(bitmap);
+            Log.d("LEITURA2", CollectData.collect_list.size() + "");
+        }
+
         tvTemp.setText(CollectData.collect_list.get(i).temperature + "");
-        tvData.setText(CollectData.collect_list.get(i).date.split("-")[0]);
+
+        String aux = CollectData.collect_list.get(i).date.split("_")[0];
+
+        tvData.setText(aux.substring(0, 2) + "/" + aux.substring(2, 4) + "/" + aux.substring(4, 8));
         tvSal.setText(CollectData.collect_list.get(i).salinity + "");
-        tvLat.setText(CollectData.collect_list.get(i).latitude );
+        tvLat.setText(CollectData.collect_list.get(i).latitude);
         tvLong.setText(CollectData.collect_list.get(i).longitude);
 
 
